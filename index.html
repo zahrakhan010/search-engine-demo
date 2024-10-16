@@ -93,7 +93,7 @@
             displayPreview(content);
         }
 
-        // Here you would implement your actual search results logic
+        // Update the search results with the given articles
         function updateSearchResults(articles) {
             const resultsDiv = document.getElementById('results');
             resultsDiv.innerHTML = ''; // Clear existing results
@@ -107,18 +107,7 @@
             });
         }
 
-        // Example function to simulate search results; replace this with your actual data fetching
-        function mockSearchResults() {
-            const articles = [
-                { title: "Sample Article 1", content: "<h3>Sample Article 1</h3><p>This is the content for Sample Article 1.</p>" },
-                { title: "Sample Article 2", content: "<h3>Sample Article 2</h3><p>This is the content for Sample Article 2.</p>" },
-                { title: "Sample Article 3", content: "<h3>Sample Article 3</h3><p>This is the content for Sample Article 3.</p>" }
-            ];
-
-            updateSearchResults(articles); // Update the search results with the sample articles
-        }
-
-        window.onload = mockSearchResults; // Load mock results on page load
+        // You would implement your actual search results logic here
     </script>
 </head>
 

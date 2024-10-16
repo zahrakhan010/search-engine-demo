@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +13,7 @@
             margin: 0;
             padding: 0;
         }
+
         header {
             background-color: #376fe9;
             color: white;
@@ -19,20 +21,45 @@
             text-align: center;
             box-shadow: 0 4px 2px -2px gray;
         }
+
         h1 {
             margin: 0;
             font-size: 2.5em;
         }
+
         main {
+            display: flex;
             padding: 20px;
+            height: calc(100vh - 120px); /* Adjust for header and footer */
         }
-        #searchBox {
-            margin: 30px 0;
+
+        #searchResults {
+            width: 40%;
+            max-width: 40%;
+            margin-right: 20px;
+            height: 100%;
+            border: 1px solid #ddd;
+            background-color: white;
+            overflow-y: auto;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            padding: 10px;
         }
-        #results {
-            display: none;
-            margin-top: 30px;
+
+        #preview {
+            width: 60%;
+            max-width: 60%;
+            height: 100%;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            padding: 20px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
         }
+
+        .gcse-search {
+            margin-bottom: 20px;
+        }
+
         footer {
             text-align: center;
             padding: 10px;
@@ -44,6 +71,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <header>
@@ -52,11 +80,18 @@
     </header>
 
     <main>
-        <div id="searchBox">
+        <!-- Search Results Column -->
+        <div id="searchResults">
             <div class="gcse-search"></div>
+            <div id="results" class="gcse-searchresults-only"></div>
         </div>
 
-        <div id="results" class="gcse-searchresults-only"></div>
+        <!-- Preview Column -->
+        <div id="preview">
+            <h2>Preview Section</h2>
+            <p>This is where the selected article's content will be displayed.</p>
+            <!-- Add more content here based on your logic -->
+        </div>
     </main>
 
     <footer>
@@ -76,5 +111,5 @@
     </script>
 
 </body>
-</html>
 
+</html>

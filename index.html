@@ -11,11 +11,7 @@
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
         }
-
         header {
             background-color: #376fe9;
             color: white;
@@ -23,63 +19,31 @@
             text-align: center;
             box-shadow: 0 4px 2px -2px gray;
         }
-
         h1 {
             margin: 0;
             font-size: 2.5em;
         }
-
         main {
-            display: flex;
-            flex-grow: 1;
             padding: 20px;
-            gap: 20px;
         }
-
-        #searchResults {
-            flex: 0 0 40%; /*
-            height: 100%;
-            border: 1px solid #ddd;
-            background-color: white;
-            overflow-y: auto;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            padding: 10px;
-            max-width: 30%; /* Reduced width of search results */
+        #searchBox {
+            margin: 30px 0;
         }
-
-        #preview {
-            flex: 0 0 60%; /*
-            height: 100%;
-            border: 1px solid #ddd;
-            background-color: #f9f9f9;
-            padding: 0;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            overflow-y: auto;
-            max-width: 70%; /* Increased width of preview section */
+        #results {
+            display: none;
+            margin-top: 30px;
         }
-
-        #preview iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .gcse-search {
-            margin-bottom: 20px;
-        }
-
         footer {
             text-align: center;
             padding: 10px;
             background-color: #333;
             color: white;
-            position: static;
+            position: fixed;
             bottom: 0;
             width: 100%;
         }
     </style>
 </head>
-
 <body>
 
     <header>
@@ -88,18 +52,11 @@
     </header>
 
     <main>
-        <!-- Search Results Column -->
-        <div id="searchResults">
-            <!-- Search Box -->
+        <div id="searchBox">
             <div class="gcse-search"></div>
-            <!-- Results -->
-            <div id="results" class="gcse-searchresults-only"></div>
         </div>
 
-        <!-- Preview Column (Iframe) -->
-        <div id="preview">
-            <iframe id="previewFrame" src=""></iframe>
-        </div>
+        <div id="results" class="gcse-searchresults-only"></div>
     </main>
 
     <footer>
@@ -107,34 +64,16 @@
     </footer>
 
     <script>
-        // Function to intercept search result clicks and load them in the iframe
-        function handleSearchResultClicks() {
-            const searchResults = document.getElementById('searchResults');
-            
-            // Use event delegation to capture clicks on any link within the search results
-            searchResults.addEventListener('click', function (event) {
-                const target = event.target;
-                
-                // Check if the clicked element is an anchor tag
-                if (target.tagName.toLowerCase() === 'a') {
-                    event.preventDefault(); // Prevent the default behavior (opening in a new tab)
-
-                    // Get the URL of the clicked link
-                    const url = target.href;
-
-                    // Load the URL in the iframe
-                    const previewFrame = document.getElementById('previewFrame');
-                    previewFrame.src = url; // Set the iframe's source to the clicked link
-                }
-            });
-        }
-
-        // Initialize search result clicks after the page has loaded
+        // Listen for the search event
         window.onload = function() {
-            handleSearchResultClicks(); // Attach event listeners to the search results
+            const searchDiv = document.querySelector('.gcse-search');
+            const resultsDiv = document.getElementById('results');
+
+            searchDiv.addEventListener('submit', function() {
+                resultsDiv.style.display = 'block'; // Show results when search is submitted
+            });
         };
     </script>
 
 </body>
-
 </html>

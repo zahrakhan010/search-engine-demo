@@ -30,8 +30,13 @@
             margin: 30px 0;
         }
         #results {
-            display: none;
             margin-top: 30px;
+        }
+        #preview {
+            margin-top: 30px;
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ccc;
         }
         footer {
             text-align: center;
@@ -57,6 +62,9 @@
         </div>
 
         <div id="results" class="gcse-searchresults-only"></div>
+
+        <!-- Add iframe for paper preview -->
+        <iframe id="preview" src="" frameborder="0"></iframe>
     </main>
 
     <footer>
@@ -64,17 +72,31 @@
     </footer>
 
     <script>
-        // Listen for the search event
+        // Wait for the search results to load and modify click behavior
         window.onload = function() {
-            const searchDiv = document.querySelector('.gcse-search');
             const resultsDiv = document.getElementById('results');
+            const previewFrame = document.getElementById('preview');
 
-            searchDiv.addEventListener('submit', function() {
-                resultsDiv.style.display = 'block'; // Show results when search is submitted
+            // Add an event listener for clicks on search results
+            document.addEventListener('click', function(event) {
+                // Check if a search result link is clicked
+                const target = event.target;
+                if (target.tagName === 'A' && target.closest('.gsc-webResult')) {
+                    event.preventDefault(); // Prevent the default behavior of opening the link
+
+                    // Load the clicked link into the iframe
+                    const paperUrl = target.getAttribute('href');
+                    previewFrame.src = paperUrl;
+
+                    // Optionally scroll to the preview section
+                    window.scrollTo({
+                        top: previewFrame.offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
             });
         };
     </script>
 
 </body>
 </html>
-

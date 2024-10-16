@@ -11,6 +11,9 @@
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         header {
@@ -28,8 +31,8 @@
 
         main {
             display: flex;
+            flex-grow: 1;
             padding: 20px;
-            height: calc(100vh - 120px); /* Adjust for header and footer */
             gap: 20px;
         }
 
@@ -41,6 +44,7 @@
             overflow-y: auto;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
             padding: 10px;
+            max-width: 30%; /* Reduced width of search results */
         }
 
         #preview {
@@ -48,9 +52,16 @@
             height: 100%;
             border: 1px solid #ddd;
             background-color: #f9f9f9;
-            padding: 20px;
+            padding: 0;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
             overflow-y: auto;
+            max-width: 70%; /* Increased width of preview section */
+        }
+
+        #preview iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
 
         .gcse-search {
@@ -62,7 +73,7 @@
             padding: 10px;
             background-color: #333;
             color: white;
-            position: fixed;
+            position: static;
             bottom: 0;
             width: 100%;
         }
@@ -85,10 +96,9 @@
             <div id="results" class="gcse-searchresults-only"></div>
         </div>
 
-        <!-- Preview Column -->
+        <!-- Preview Column (Iframe) -->
         <div id="preview">
-            <h2>Preview Section</h2>
-            <p>Select a research article from the search results to see the details here.</p>
+            <iframe id="previewFrame" src=""></iframe>
         </div>
     </main>
 
@@ -97,13 +107,7 @@
     </footer>
 
     <script>
-        // Function to display content in the preview section
-        function displayPreview(content) {
-            const previewDiv = document.getElementById('preview');
-            previewDiv.innerHTML = content; // Load the article content into the preview section
-        }
-
-        // Function to intercept search result clicks and display content in preview
+        // Function to intercept search result clicks and load them in the iframe
         function handleSearchResultClicks() {
             const searchResults = document.getElementById('searchResults');
             
@@ -115,20 +119,12 @@
                 if (target.tagName.toLowerCase() === 'a') {
                     event.preventDefault(); // Prevent the default behavior (opening in a new tab)
 
-                    // Fetch the content from the clicked link
+                    // Get the URL of the clicked link
                     const url = target.href;
 
-                    // Use fetch to get the content and display it in the preview section
-                    fetch(url)
-                        .then(response => response.text())
-                        .then(data => {
-                            // Display the fetched content in the preview section
-                            displayPreview(`<iframe srcdoc="${data}" width="100%" height="100%" style="border:none;"></iframe>`);
-                        })
-                        .catch(error => {
-                            console.error('Error fetching the article:', error);
-                            displayPreview('<p>Failed to load the article. Please try again.</p>');
-                        });
+                    // Load the URL in the iframe
+                    const previewFrame = document.getElementById('previewFrame');
+                    previewFrame.src = url; // Set the iframe's source to the clicked link
                 }
             });
         }

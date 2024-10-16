@@ -102,12 +102,23 @@
                 const resultDiv = document.createElement('div');
                 resultDiv.className = 'search-result';
                 resultDiv.innerText = article.title; // Set article title
-                resultDiv.onclick = () => handleArticleClick(article.title, article.content); // Set click event
+                // Set click event to load content instead of navigating
+                resultDiv.onclick = () => handleArticleClick(article.title, article.content); 
                 resultsDiv.appendChild(resultDiv);
             });
         }
 
-        // You would implement your actual search results logic here
+        // Example articles; replace this with your actual search results logic
+        const exampleArticles = [
+            { title: "Sample Article 1", content: "<h3>Sample Article 1</h3><p>This is the content for Sample Article 1.</p>" },
+            { title: "Sample Article 2", content: "<h3>Sample Article 2</h3><p>This is the content for Sample Article 2.</p>" },
+            { title: "Sample Article 3", content: "<h3>Sample Article 3</h3><p>This is the content for Sample Article 3.</p>" }
+        ];
+
+        // Call updateSearchResults with example articles on page load for testing
+        window.onload = () => {
+            updateSearchResults(exampleArticles);
+        };
     </script>
 </head>
 

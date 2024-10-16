@@ -44,7 +44,7 @@
         }
 
         #preview {
-            flex: 2;
+            flex: 0 0 30%; /* Reduced size for the preview section */
             height: 100%;
             border: 1px solid #ddd;
             background-color: #f9f9f9;
@@ -108,17 +108,8 @@
             });
         }
 
-        // Example articles; replace this with your actual search results logic
-        const exampleArticles = [
-            { title: "Sample Article 1", content: "<h3>Sample Article 1</h3><p>This is the content for Sample Article 1.</p>" },
-            { title: "Sample Article 2", content: "<h3>Sample Article 2</h3><p>This is the content for Sample Article 2.</p>" },
-            { title: "Sample Article 3", content: "<h3>Sample Article 3</h3><p>This is the content for Sample Article 3.</p>" }
-        ];
-
-        // Call updateSearchResults with example articles on page load for testing
-        window.onload = () => {
-            updateSearchResults(exampleArticles);
-        };
+        // Call updateSearchResults with actual articles when available
+        // For example: updateSearchResults(actualArticles);
     </script>
 </head>
 
@@ -151,4 +142,3 @@
 
 </body>
 </html>
-

@@ -87,33 +87,35 @@
             previewDiv.innerHTML = content; // Load the article content into the preview section
         }
 
-        // Example of how to handle article clicks (you would adapt this to your actual search results)
-        function handleArticleClick(title) {
-            // Here you would normally fetch the article content based on the title
-            // For demonstration, we will just use a placeholder
-            const content = `
-                <h3>${title}</h3>
-                <p>This is the content of the article titled "${title}".</p>
-                <p>Details about the research, findings, and more would go here.</p>
-            `;
+        // This function would be triggered when an article is clicked
+        function handleArticleClick(title, content) {
+            // Load the content of the selected article
             displayPreview(content);
         }
 
-        // Mock function to simulate search result click handling
-        function mockSearchResults() {
+        // Here you would implement your actual search results logic
+        function updateSearchResults(articles) {
             const resultsDiv = document.getElementById('results');
             resultsDiv.innerHTML = ''; // Clear existing results
-
-            // Example articles (you would use actual data here)
-            const articles = ['Article 1', 'Article 2', 'Article 3'];
 
             articles.forEach(article => {
                 const resultDiv = document.createElement('div');
                 resultDiv.className = 'search-result';
-                resultDiv.innerText = article;
-                resultDiv.onclick = () => handleArticleClick(article); // Set click event
+                resultDiv.innerText = article.title; // Set article title
+                resultDiv.onclick = () => handleArticleClick(article.title, article.content); // Set click event
                 resultsDiv.appendChild(resultDiv);
             });
+        }
+
+        // Example function to simulate search results; replace this with your actual data fetching
+        function mockSearchResults() {
+            const articles = [
+                { title: "Sample Article 1", content: "<h3>Sample Article 1</h3><p>This is the content for Sample Article 1.</p>" },
+                { title: "Sample Article 2", content: "<h3>Sample Article 2</h3><p>This is the content for Sample Article 2.</p>" },
+                { title: "Sample Article 3", content: "<h3>Sample Article 3</h3><p>This is the content for Sample Article 3.</p>" }
+            ];
+
+            updateSearchResults(articles); // Update the search results with the sample articles
         }
 
         window.onload = mockSearchResults; // Load mock results on page load

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,12 +30,11 @@
             display: flex;
             padding: 20px;
             height: calc(100vh - 120px); /* Adjust for header and footer */
+            gap: 20px;
         }
 
         #searchResults {
-            width: 40%;
-            max-width: 40%;
-            margin-right: 20px;
+            flex: 1;
             height: 100%;
             border: 1px solid #ddd;
             background-color: white;
@@ -46,8 +44,7 @@
         }
 
         #preview {
-            width: 60%;
-            max-width: 60%;
+            flex: 2;
             height: 100%;
             border: 1px solid #ddd;
             background-color: #f9f9f9;
@@ -82,15 +79,16 @@
     <main>
         <!-- Search Results Column -->
         <div id="searchResults">
+            <!-- Search Box -->
             <div class="gcse-search"></div>
+            <!-- Results -->
             <div id="results" class="gcse-searchresults-only"></div>
         </div>
 
         <!-- Preview Column -->
         <div id="preview">
             <h2>Preview Section</h2>
-            <p>This is where the selected article's content will be displayed.</p>
-            <!-- Add more content here based on your logic -->
+            <p>Select a research article from the search results to see the details here.</p>
         </div>
     </main>
 
@@ -98,19 +96,5 @@
         <p>&copy; 2024 Literature Review Tool | All Rights Reserved</p>
     </footer>
 
-    <script>
-        // Listen for the search event
-        window.onload = function() {
-            const searchDiv = document.querySelector('.gcse-search');
-            const resultsDiv = document.getElementById('results');
-
-            searchDiv.addEventListener('submit', function() {
-                resultsDiv.style.display = 'block'; // Show results when search is submitted
-            });
-        };
-    </script>
-
 </body>
-
 </html>
-

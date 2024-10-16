@@ -4,13 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Research Article Literature Review Search</title>
-    <script async src="https://cse.google.com/cse.js?cx=c57cd31c36a8f42b1"></script>
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         header {
@@ -28,33 +31,31 @@
 
         main {
             display: flex;
+            flex-grow: 1;
             padding: 20px;
-            height: calc(100vh - 120px); /* Adjust for header and footer */
             gap: 20px;
         }
 
         #searchResults {
-            flex: 0 0 40%; /* Reduced size for the search results section */
+            flex: 1;
             height: 100%;
             border: 1px solid #ddd;
             background-color: white;
             overflow-y: auto;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
             padding: 10px;
+            max-width: 30%;
         }
 
         #preview {
-            flex: 0 0 60%; /* Increased size for the preview section */
+            flex: 2;
             height: 100%;
             border: 1px solid #ddd;
             background-color: #f9f9f9;
-            padding: 20px;
+            padding: 0;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
             overflow-y: auto;
-        }
-
-        .gcse-search {
-            margin-bottom: 20px;
+            max-width: 70%;
         }
 
         footer {
@@ -62,55 +63,17 @@
             padding: 10px;
             background-color: #333;
             color: white;
-            position: fixed;
+            position: static;
             bottom: 0;
             width: 100%;
         }
 
-        /* Optional styling for search results */
-        .search-result {
-            cursor: pointer;
-            margin-bottom: 10px;
-            padding: 10px;
+        #queryResultContainer {
+            padding: 20px;
             border: 1px solid #ddd;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .search-result:hover {
-            background-color: #e6e6e6;
+            background-color: #fff;
         }
     </style>
-    <script>
-        function displayPreview(content) {
-            const previewDiv = document.getElementById('preview');
-            previewDiv.innerHTML = content; // Load the article content into the preview section
-        }
-
-        // This function would be triggered when an article is clicked
-        function handleArticleClick(title, content) {
-            // Load the content of the selected article
-            displayPreview(content);
-        }
-
-        // Update the search results with the given articles
-        function updateSearchResults(articles) {
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = ''; // Clear existing results
-
-            articles.forEach(article => {
-                const resultDiv = document.createElement('div');
-                resultDiv.className = 'search-result';
-                resultDiv.innerText = article.title; // Set article title
-                // Set click event to load content instead of navigating
-                resultDiv.onclick = () => handleArticleClick(article.title, article.content); 
-                resultsDiv.appendChild(resultDiv);
-            });
-        }
-
-        // Call updateSearchResults with actual articles when available
-        // For example: updateSearchResults(actualArticles);
-    </script>
 </head>
 
 <body>
@@ -129,10 +92,9 @@
             <div id="results" class="gcse-searchresults-only"></div>
         </div>
 
-        <!-- Preview Column -->
+        <!-- Preview Column (using a div instead of iframe) -->
         <div id="preview">
-            <h2>Preview Section</h2>
-            <p>Select a research article from the search results to see the details here.</p>
+            <div id="queryResultContainer"></div> <!-- The div to load the content -->
         </div>
     </main>
 
@@ -140,5 +102,31 @@
         <p>&copy; 2024 Literature Review Tool | All Rights Reserved</p>
     </footer>
 
+    <script>
+        // Function to load the selected article into the preview section
+        function loadArticle(url) {
+            // Replace 'http' with 'https' if necessary, especially if your site uses HTTPS
+            url = url.replace(/^https?:\/\//, '');
+            
+            // Fetch content using anyorigin.com proxy
+            $.getJSON('https://anyorigin.com/go?url=' + url + '&callback=?', function (data) {
+                var content = data.contents;
+                // Inject the content into the queryResultContainer div
+                $('#queryResultContainer').html(content + "<script> setInterval(function () { $('#queryResultContainer').find('a').removeAttr('target');}, 200);</script>");
+            });
+        }
+
+        // Initialize search result clicks to load in the same page
+        $(document).on('click', '#searchResults a', function (event) {
+            event.preventDefault(); // Prevent default link behavior
+            var articleUrl = $(this).attr('href'); // Get the URL of the clicked link
+            loadArticle(articleUrl); // Load the article into the preview div
+        });
+
+        // Note: This part assumes you have the Google CSE search set up
+        // If you already have a search tool, replace the 'href' and search handling accordingly
+    </script>
+
 </body>
+
 </html>

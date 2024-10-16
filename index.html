@@ -96,5 +96,38 @@
         <p>&copy; 2024 Literature Review Tool | All Rights Reserved</p>
     </footer>
 
+    <script>
+        // Function to update the preview section with clicked paper link or content
+        function updatePreview(link, title) {
+            const previewSection = document.getElementById('preview');
+            previewSection.innerHTML = `
+                <h2>${title}</h2>
+                <p>Preview of the selected article:</p>
+                <iframe src="${link}" width="100%" height="400px"></iframe>
+                <p><a href="${link}" target="_blank">Read full paper</a></p>
+            `;
+        }
+
+        // Wait for Google CSE to load
+        window.onload = function() {
+            const observer = new MutationObserver(function() {
+                const resultLinks = document.querySelectorAll('.gsc-webResult .gsc-url-top');
+                resultLinks.forEach(link => {
+                    link.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        const paperLink = link.href; // Extract the link URL
+                        const paperTitle = link.innerText || 'Selected Article'; // Get title or default
+                        updatePreview(paperLink, paperTitle); // Call preview update
+                    });
+                });
+            });
+
+            // Start observing the search results for changes
+            const resultsContainer = document.getElementById('results');
+            observer.observe(resultsContainer, { childList: true, subtree: true });
+        };
+    </script>
+
 </body>
 </html>
+

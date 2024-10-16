@@ -55,6 +55,11 @@
             bottom: 0;
             width: 100%;
         }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
     </style>
 </head>
 <body>
@@ -73,7 +78,7 @@
         <div id="preview">
             <h2>Preview Section</h2>
             <p>The selected article preview will appear below:</p>
-            <iframe id="previewFrame" src="" width="100%" height="500" style="border: none;"></iframe>
+            <iframe id="previewFrame" src=""></iframe>
         </div>
     </main>
 
@@ -82,28 +87,27 @@
     </footer>
 
     <script>
-        // Listen for the results to be loaded and attach click events
+        // Listen for the load event to capture search result clicks
         window.onload = function() {
             const resultsDiv = document.getElementById('results');
 
-            // Set an interval to check for results
-            const interval = setInterval(() => {
-                // Check if the results are loaded
+            // Use MutationObserver to detect changes in the results
+            const observer = new MutationObserver(() => {
                 const results = resultsDiv.querySelectorAll('a');
-                if (results.length > 0) {
-                    // Stop checking once results are found
-                    clearInterval(interval);
+                results.forEach(link => {
+                    link.onclick = function(event) {
+                        event.preventDefault(); // Prevent default link behavior
+                        const url = this.href; // Get the URL
+                        document.getElementById('previewFrame').src = url; // Set the iframe source
+                    };
+                });
+            });
 
-                    // Add click event to each result link
-                    results.forEach(link => {
-                        link.addEventListener('click', function(event) {
-                            event.preventDefault(); // Prevent default link behavior
-                            const url = this.href; // Get the URL
-                            document.getElementById('previewFrame').src = url; // Set the iframe source
-                        });
-                    });
-                }
-            }, 1000); // Check every second
+            // Start observing the results div for changes
+            observer.observe(resultsDiv, {
+                childList: true,
+                subtree: true
+            });
         };
     </script>
 

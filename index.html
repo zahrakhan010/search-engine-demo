@@ -12,7 +12,6 @@
             margin: 0;
             padding: 0;
         }
-
         header {
             background-color: #376fe9;
             color: white;
@@ -20,19 +19,16 @@
             text-align: center;
             box-shadow: 0 4px 2px -2px gray;
         }
-
         h1 {
             margin: 0;
             font-size: 2.5em;
         }
-
         main {
             display: flex;
             padding: 20px;
             height: calc(100vh - 120px); /* Adjust for header and footer */
             gap: 20px;
         }
-
         #searchResults {
             flex: 1;
             height: 100%;
@@ -42,7 +38,6 @@
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
             padding: 10px;
         }
-
         #preview {
             flex: 2;
             height: 100%;
@@ -50,13 +45,7 @@
             background-color: #f9f9f9;
             padding: 20px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            overflow-y: auto;
         }
-
-        .gcse-search {
-            margin-bottom: 20px;
-        }
-
         footer {
             text-align: center;
             padding: 10px;
@@ -68,7 +57,6 @@
         }
     </style>
 </head>
-
 <body>
 
     <header>
@@ -77,18 +65,15 @@
     </header>
 
     <main>
-        <!-- Search Results Column -->
         <div id="searchResults">
-            <!-- Search Box -->
             <div class="gcse-search"></div>
-            <!-- Results -->
             <div id="results" class="gcse-searchresults-only"></div>
         </div>
 
-        <!-- Preview Column -->
         <div id="preview">
             <h2>Preview Section</h2>
-            <p>Select a research article from the search results to see the details here.</p>
+            <p>The selected article preview will appear below:</p>
+            <iframe id="previewFrame" src="" width="100%" height="500" style="border: none;"></iframe>
         </div>
     </main>
 
@@ -97,37 +82,30 @@
     </footer>
 
     <script>
-        // Function to update the preview section with clicked paper link or content
-        function updatePreview(link, title) {
-            const previewSection = document.getElementById('preview');
-            previewSection.innerHTML = `
-                <h2>${title}</h2>
-                <p>Preview of the selected article:</p>
-                <iframe src="${link}" width="100%" height="400px"></iframe>
-                <p><a href="${link}" target="_blank">Read full paper</a></p>
-            `;
-        }
-
-        // Wait for Google CSE to load
+        // Listen for the results to be loaded and attach click events
         window.onload = function() {
-            const observer = new MutationObserver(function() {
-                const resultLinks = document.querySelectorAll('.gsc-webResult .gsc-url-top');
-                resultLinks.forEach(link => {
-                    link.addEventListener('click', function(event) {
-                        event.preventDefault();
-                        const paperLink = link.href; // Extract the link URL
-                        const paperTitle = link.innerText || 'Selected Article'; // Get title or default
-                        updatePreview(paperLink, paperTitle); // Call preview update
-                    });
-                });
-            });
+            const resultsDiv = document.getElementById('results');
 
-            // Start observing the search results for changes
-            const resultsContainer = document.getElementById('results');
-            observer.observe(resultsContainer, { childList: true, subtree: true });
+            // Set an interval to check for results
+            const interval = setInterval(() => {
+                // Check if the results are loaded
+                const results = resultsDiv.querySelectorAll('a');
+                if (results.length > 0) {
+                    // Stop checking once results are found
+                    clearInterval(interval);
+
+                    // Add click event to each result link
+                    results.forEach(link => {
+                        link.addEventListener('click', function(event) {
+                            event.preventDefault(); // Prevent default link behavior
+                            const url = this.href; // Get the URL
+                            document.getElementById('previewFrame').src = url; // Set the iframe source
+                        });
+                    });
+                }
+            }, 1000); // Check every second
         };
     </script>
 
 </body>
 </html>
-

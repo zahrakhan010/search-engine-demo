@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Research Article Literature Review Search</title>
-    <script async src="https://cse.google.com/cse.js?cx=c57cd31c36a8f42b1"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,26 +16,39 @@
             color: white;
             padding: 20px;
             text-align: center;
-            box-shadow: 0 4px 2px -2px gray;
-        }
-        h1 {
-            margin: 0;
-            font-size: 2.5em;
         }
         main {
+            display: flex;
             padding: 20px;
-            display: flex; /* Flex layout for side-by-side columns */
-            justify-content: space-between;
         }
-        #searchBox, #results {
-            width: 45%; /* Adjust the width to make space for the preview */
+        #searchBox {
+            width: 40%;
+            padding-right: 20px;
         }
-        #preview {
-            width: 50%;
-            height: 600px;
-            border: 1px solid #ccc;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        #previewArea {
+            width: 60%;
+            border: 1px solid #ddd;
+            padding: 20px;
             background-color: #fff;
+        }
+        .paper {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+        .paper h4 {
+            margin: 0 0 10px 0;
+        }
+        button {
+            background-color: #376fe9;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2c5dbd;
         }
         footer {
             text-align: center;
@@ -47,51 +59,85 @@
             bottom: 0;
             width: 100%;
         }
+        #results {
+            max-height: 500px;
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Literature Review Generator</h1>
-        <p>Search for research articles and generate a comprehensive literature review</p>
-    </header>
+<header>
+    <h1>Literature Review Search</h1>
+    <p>Search for open-access research papers and preview abstracts.</p>
+</header>
 
-    <main>
-        <!-- Left side for search results -->
-        <div id="searchBox">
-            <div class="gcse-search"></div>
-        </div>
+<main>
+    <!-- Search Box and Results Section -->
+    <div id="searchBox">
+        <input type="text" id="searchInput" placeholder="Enter paper title or keywords" style="width: 100%; padding: 10px;">
+        <button onclick="searchPapers()">Search</button>
+        <div id="results"></div>
+    </div>
 
-        <div id="results" class="gcse-searchresults-only"></div>
+    <!-- Paper Preview Area -->
+    <div id="previewArea">
+        <h3 id="title">Paper Title</h3>
+        <p id="abstract">Paper abstract will appear here when you select a paper.</p>
+        <a id="fullTextLink" href="#" target="_blank">Read Full Text</a>
+    </div>
+</main>
 
-        <!-- Right side for paper preview -->
-        <iframe id="preview" src="" frameborder="0"></iframe>
-    </main>
+<footer>
+    <p>&copy; 2024 Research Search Tool | All Rights Reserved</p>
+</footer>
 
-    <footer>
-        <p>&copy; 2024 Literature Review Tool | All Rights Reserved</p>
-    </footer>
+<script>
+    function searchPapers() {
+        const query = document.getElementById('searchInput').value;
+        const apiUrl = `https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(query)}&fields=title,abstract,url`;
 
-    <script>
-        // Wait for the search results to load and modify click behavior
-        window.onload = function() {
-            const resultsDiv = document.getElementById('results');
-            const previewFrame = document.getElementById('preview');
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const resultsDiv = document.getElementById('results');
+                resultsDiv.innerHTML = ''; // Clear previous results
 
-            // Add an event listener for clicks on search results
-            document.addEventListener('click', function(event) {
-                // Check if a search result link is clicked
-                const target = event.target;
-                if (target.tagName === 'A' && target.closest('.gsc-webResult')) {
-                    event.preventDefault(); // Prevent the default behavior of opening the link
+                // Loop through each paper in the search results
+                data.data.forEach(paper => {
+                    const paperDiv = document.createElement('div');
+                    paperDiv.className = 'paper';
+                    paperDiv.innerHTML = `
+                        <h4>${paper.title}</h4>
+                        <button onclick="showPaperPreview('${paper.paperId}')">Preview</button>
+                    `;
+                    resultsDiv.appendChild(paperDiv);
+                });
+            })
+            .catch(error => console.error('Error fetching papers:', error));
+    }
 
-                    // Load the clicked link into the iframe
-                    const paperUrl = target.getAttribute('href');
-                    previewFrame.src = paperUrl;
+    function showPaperPreview(paperId) {
+        const apiUrl = `https://api.semanticscholar.org/graph/v1/paper/${paperId}?fields=title,abstract,url`;
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                // Update the preview area with the paper's title and abstract
+                document.getElementById('title').textContent = data.title;
+                document.getElementById('abstract').textContent = data.abstract;
+
+                // Provide a link to the full text (if available)
+                if (data.url) {
+                    document.getElementById('fullTextLink').href = data.url;
+                    document.getElementById('fullTextLink').textContent = 'Read Full Text';
+                } else {
+                    document.getElementById('fullTextLink').textContent = 'Full text not available';
                 }
-            });
-        };
-    </script>
+            })
+            .catch(error => console.error('Error fetching paper details:', error));
+    }
+</script>
 
 </body>
 </html>

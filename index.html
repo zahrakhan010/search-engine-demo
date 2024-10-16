@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,7 +35,7 @@
         }
 
         #searchResults {
-            flex: 0 0 40%; /* Reduced size for the search results section */
+            flex: 1;
             height: 100%;
             border: 1px solid #ddd;
             background-color: white;
@@ -44,7 +45,7 @@
         }
 
         #preview {
-            flex: 0 0 60%; /* Increased size for the preview section */
+            flex: 2;
             height: 100%;
             border: 1px solid #ddd;
             background-color: #f9f9f9;
@@ -66,51 +67,7 @@
             bottom: 0;
             width: 100%;
         }
-
-        /* Optional styling for search results */
-        .search-result {
-            cursor: pointer;
-            margin-bottom: 10px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .search-result:hover {
-            background-color: #e6e6e6;
-        }
     </style>
-    <script>
-        function displayPreview(content) {
-            const previewDiv = document.getElementById('preview');
-            previewDiv.innerHTML = content; // Load the article content into the preview section
-        }
-
-        // This function would be triggered when an article is clicked
-        function handleArticleClick(title, content) {
-            // Load the content of the selected article
-            displayPreview(content);
-        }
-
-        // Update the search results with the given articles
-        function updateSearchResults(articles) {
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = ''; // Clear existing results
-
-            articles.forEach(article => {
-                const resultDiv = document.createElement('div');
-                resultDiv.className = 'search-result';
-                resultDiv.innerText = article.title; // Set article title
-                // Set click event to load content instead of navigating
-                resultDiv.onclick = () => handleArticleClick(article.title, article.content); 
-                resultsDiv.appendChild(resultDiv);
-            });
-        }
-
-        // Call updateSearchResults with actual articles when available
-        // For example: updateSearchResults(actualArticles);
-    </script>
 </head>
 
 <body>
@@ -140,5 +97,40 @@
         <p>&copy; 2024 Literature Review Tool | All Rights Reserved</p>
     </footer>
 
+    <script>
+        // Function to display content in the preview section
+        function displayPreview(content) {
+            const previewDiv = document.getElementById('preview');
+            previewDiv.innerHTML = content; // Load the article content into the preview section
+        }
+
+        // Function to intercept search result clicks and display content in preview
+        function handleSearchResultClicks() {
+            const searchResults = document.getElementById('results');
+            
+            // Use event delegation to capture clicks on any link within the search results
+            searchResults.addEventListener('click', function (event) {
+                const target = event.target;
+                
+                // Check if the clicked element is an anchor tag
+                if (target.tagName.toLowerCase() === 'a') {
+                    event.preventDefault(); // Prevent the default behavior (opening in a new tab)
+
+                    // Simulate fetching the article content (you will likely need to fetch actual content here)
+                    const articleContent = `<h3>${target.innerText}</h3><p>This is a simulated content for ${target.innerText}.</p>`;
+                    
+                    // Display the article content in the preview section
+                    displayPreview(articleContent);
+                }
+            });
+        }
+
+        // Initialize search result clicks after the page has loaded
+        window.onload = function() {
+            handleSearchResultClicks(); // Attach event listeners to the search results
+        };
+    </script>
+
 </body>
+
 </html>

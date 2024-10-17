@@ -53,6 +53,12 @@
             overflow-y: auto;
         }
 
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
         .gcse-search {
             margin-bottom: 20px;
         }
@@ -67,7 +73,6 @@
             width: 100%;
         }
 
-        /* Optional styling for search results */
         .search-result {
             cursor: pointer;
             margin-bottom: 10px;
@@ -82,18 +87,18 @@
         }
     </style>
     <script>
-        function displayPreview(content) {
-            const previewDiv = document.getElementById('preview');
-            previewDiv.innerHTML = content; // Load the article content into the preview section
+        function loadIntoIframe(url) {
+            const iframe = document.getElementById('previewIframe');
+            iframe.src = url; // Load the selected URL into the iframe
         }
 
-        // This function would be triggered when an article is clicked
-        function handleArticleClick(title, content) {
-            // Load the content of the selected article
-            displayPreview(content);
+        // This function will be triggered when a search result is clicked
+        function handleResultClick(url) {
+            // Load the paper URL into the iframe instead of opening in a new tab
+            loadIntoIframe(url);
         }
 
-        // Update the search results with the given articles
+        // Update search results dynamically
         function updateSearchResults(articles) {
             const resultsDiv = document.getElementById('results');
             resultsDiv.innerHTML = ''; // Clear existing results
@@ -101,15 +106,15 @@
             articles.forEach(article => {
                 const resultDiv = document.createElement('div');
                 resultDiv.className = 'search-result';
-                resultDiv.innerText = article.title; // Set article title
-                // Set click event to load content instead of navigating
-                resultDiv.onclick = () => handleArticleClick(article.title, article.content); 
+                resultDiv.innerText = article.title; // Set the article title
+
+                // Set click event to load the URL into the iframe
+                resultDiv.onclick = () => handleResultClick(article.url); 
                 resultsDiv.appendChild(resultDiv);
             });
         }
 
-        // Call updateSearchResults with actual articles when available
-        // For example: updateSearchResults(actualArticles);
+        // Example: updateSearchResults([{ title: "Sample Paper", url: "https://example.com/sample-paper.pdf" }]);
     </script>
 </head>
 
@@ -132,7 +137,8 @@
         <!-- Preview Column -->
         <div id="preview">
             <h2>Preview Section</h2>
-            <p>Select a research article from the search results to see the details here.</p>
+            <!-- Iframe for loading papers -->
+            <iframe id="previewIframe" src=""></iframe>
         </div>
     </main>
 

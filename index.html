@@ -87,15 +87,16 @@
         }
     </style>
     <script>
+        // Function to load content into the iframe
         function loadIntoIframe(url) {
             const iframe = document.getElementById('previewIframe');
             iframe.src = url; // Load the selected URL into the iframe
         }
 
         // This function will be triggered when a search result is clicked
-        function handleResultClick(url) {
-            // Load the paper URL into the iframe instead of opening in a new tab
-            loadIntoIframe(url);
+        function handleResultClick(event, url) {
+            event.preventDefault(); // Prevent the default behavior of link navigation
+            loadIntoIframe(url); // Load the paper URL into the iframe
         }
 
         // Update search results dynamically
@@ -106,10 +107,11 @@
             articles.forEach(article => {
                 const resultDiv = document.createElement('div');
                 resultDiv.className = 'search-result';
-                resultDiv.innerText = article.title; // Set the article title
+                resultDiv.innerHTML = `<a href="${article.url}" target="_blank">${article.title}</a>`;
+                
+                // Prevent default link behavior and open in iframe
+                resultDiv.querySelector('a').addEventListener('click', (e) => handleResultClick(e, article.url));
 
-                // Set click event to load the URL into the iframe
-                resultDiv.onclick = () => handleResultClick(article.url); 
                 resultsDiv.appendChild(resultDiv);
             });
         }

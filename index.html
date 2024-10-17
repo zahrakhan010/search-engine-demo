@@ -27,28 +27,40 @@
         }
 
         main {
+            display: flex;
             padding: 20px;
+            height: calc(100vh - 120px); /* Adjust for header and footer */
+            gap: 20px;
         }
 
-        #searchBox {
-            margin: 30px 0;
-        }
-
-        #results {
-            display: none; /* Initially hidden */
-            margin-top: 30px;
+        #searchResults {
+            flex: 0 0 40%; /* Reduced size for the search results section */
+            height: 100%;
             border: 1px solid #ddd;
-            padding: 10px;
             background-color: white;
+            overflow-y: auto;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            padding: 10px;
         }
 
-        /* New styles for the iframe */
-        #resultsIframe {
+        #preview {
+            flex: 0 0 60%; /* Increased size for the preview section */
+            height: 100%;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            padding: 20px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+        }
+
+        iframe {
             width: 100%;
-            height: 400px; /* Set height as needed */
-            border: none; /* Remove default border */
-            display: none; /* Initially hidden */
+            height: 100%;
+            border: none;
+        }
+
+        .gcse-search {
+            margin-bottom: 20px;
         }
 
         footer {
@@ -60,57 +72,84 @@
             bottom: 0;
             width: 100%;
         }
+
+        .search-result {
+            cursor: pointer;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .search-result:hover {
+            background-color: #e6e6e6;
+        }
     </style>
+    <script>
+        // Function to display the link in the preview section
+        function showLinkInPreview(url) {
+            const previewSection = document.getElementById('preview');
+            previewSection.innerHTML = `
+                <h2>Preview Section</h2>
+                <p>Click the link below to view the full article:</p>
+                <a href="${url}" target="_blank">${url}</a>
+            `;
+        }
+
+        // This function will be triggered when a search result is clicked
+        function handleResultClick(event, url) {
+            event.preventDefault(); // Prevent the default behavior of link navigation
+            showLinkInPreview(url); // Display the URL in the preview section
+        }
+
+        // Update search results dynamically
+        function updateSearchResults(articles) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = ''; // Clear existing results
+
+            articles.forEach(article => {
+                const resultDiv = document.createElement('div');
+                resultDiv.className = 'search-result';
+                resultDiv.innerHTML = `<a href="${article.url}" target="_blank">${article.title}</a>`;
+
+                // Prevent default link behavior and show URL in preview section
+                resultDiv.querySelector('a').addEventListener('click', (e) => handleResultClick(e, article.url));
+
+                resultsDiv.appendChild(resultDiv);
+            });
+        }
+
+        // Example: updateSearchResults([{ title: "Sample Paper", url: "https://example.com/sample-paper.pdf" }]);
+    </script>
 </head>
+
 <body>
 
-<header>
-    <h1>Literature Review Generator</h1>
-    <p>Search for research articles and generate a comprehensive literature review</p>
-</header>
+    <header>
+        <h1>Literature Review Generator</h1>
+        <p>Search for research articles and generate a comprehensive literature review</p>
+    </header>
 
-<main>
-    <!-- Search Box -->
-    <div id="searchBox">
-        <div class="gcse-search"></div>
-    </div>
+    <main>
+        <!-- Search Results Column -->
+        <div id="searchResults">
+            <!-- Search Box -->
+            <div class="gcse-search"></div>
+            <!-- Results -->
+            <div id="results" class="gcse-searchresults-only"></div>
+        </div>
 
-    <!-- Results Container -->
-    <div id="results" class="gcse-searchresults-only"></div>
+        <!-- Preview Column -->
+        <div id="preview">
+            <h2>Preview Section</h2>
+            <p>Selected article details will appear here.</p>
+        </div>
+    </main>
 
-    <!-- Iframe for displaying results -->
-    <iframe id="resultsIframe" title="Search Results"></iframe>
-</main>
-
-<footer>
-    <p>&copy; 2024 Literature Review Tool | All Rights Reserved</p>
-</footer>
-
-<script>
-    // After the page loads
-    window.onload = function() {
-        const searchDiv = document.querySelector('.gcse-search');
-        const resultsDiv = document.getElementById('results');
-        const resultsIframe = document.getElementById('resultsIframe');
-
-        // Attach a search listener to display results container after search
-        window.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                resultsDiv.style.display = 'block'; // Show results section after search
-                loadResultsIntoIframe(); // Load results into iframe
-                resultsIframe.style.display = 'block'; // Show the iframe
-            }
-        });
-    };
-
-    function loadResultsIntoIframe() {
-        const iframe = document.getElementById('resultsIframe');
-        
-        // Example URL - replace with actual logic to get the search results URL
-        const searchResultsURL = "https://example.com/search-results"; 
-        iframe.src = searchResultsURL; // Set the source of the iframe to the result URL
-    }
-</script>
+    <footer>
+        <p>&copy; 2024 Literature Review Tool | All Rights Reserved</p>
+    </footer>
 
 </body>
 </html>

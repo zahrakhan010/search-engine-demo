@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Research Article Literature Review Search</title>
-    <!-- Google Custom Search Engine script -->
     <script async src="https://cse.google.com/cse.js?cx=c57cd31c36a8f42b1"></script>
     <style>
         body {
@@ -36,12 +35,20 @@
         }
 
         #results {
-            display: none;
+            display: none; /* Initially hidden */
             margin-top: 30px;
             border: 1px solid #ddd;
             padding: 10px;
             background-color: white;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* New styles for the iframe */
+        #resultsIframe {
+            width: 100%;
+            height: 400px; /* Set height as needed */
+            border: none; /* Remove default border */
+            display: none; /* Initially hidden */
         }
 
         footer {
@@ -57,41 +64,53 @@
 </head>
 <body>
 
-    <header>
-        <h1>Literature Review Generator</h1>
-        <p>Search for research articles and generate a comprehensive literature review</p>
-    </header>
+<header>
+    <h1>Literature Review Generator</h1>
+    <p>Search for research articles and generate a comprehensive literature review</p>
+</header>
 
-    <main>
-        <!-- Search Box -->
-        <div id="searchBox">
-            <div class="gcse-search"></div>
-        </div>
+<main>
+    <!-- Search Box -->
+    <div id="searchBox">
+        <div class="gcse-search"></div>
+    </div>
 
-        <!-- Results Container -->
-        <div id="results" class="gcse-searchresults-only"></div>
-    </main>
+    <!-- Results Container -->
+    <div id="results" class="gcse-searchresults-only"></div>
 
-    <footer>
-        <p>&copy; 2024 Literature Review Tool | All Rights Reserved</p>
-    </footer>
+    <!-- Iframe for displaying results -->
+    <iframe id="resultsIframe" title="Search Results"></iframe>
+</main>
 
-    <script>
-        // After the page loads
-        window.onload = function() {
-            // Select the search box and the results container
-            const searchDiv = document.querySelector('.gcse-search');
-            const resultsDiv = document.getElementById('results');
+<footer>
+    <p>&copy; 2024 Literature Review Tool | All Rights Reserved</p>
+</footer>
 
-            // Attach a search listener to display results container after search
-            window.addEventListener('keydown', function(e) {
-                // Detect the Enter key (search submission trigger)
-                if (e.key === 'Enter') {
-                    resultsDiv.style.display = 'block';  // Show results section after search
-                }
-            });
-        };
-    </script>
+<script>
+    // After the page loads
+    window.onload = function() {
+        const searchDiv = document.querySelector('.gcse-search');
+        const resultsDiv = document.getElementById('results');
+        const resultsIframe = document.getElementById('resultsIframe');
+
+        // Attach a search listener to display results container after search
+        window.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                resultsDiv.style.display = 'block'; // Show results section after search
+                loadResultsIntoIframe(); // Load results into iframe
+                resultsIframe.style.display = 'block'; // Show the iframe
+            }
+        });
+    };
+
+    function loadResultsIntoIframe() {
+        const iframe = document.getElementById('resultsIframe');
+        
+        // Example URL - replace with actual logic to get the search results URL
+        const searchResultsURL = "https://example.com/search-results"; 
+        iframe.src = searchResultsURL; // Set the source of the iframe to the result URL
+    }
+</script>
 
 </body>
 </html>

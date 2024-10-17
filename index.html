@@ -12,7 +12,6 @@
             margin: 0;
             padding: 0;
         }
-
         header {
             background-color: #376fe9;
             color: white;
@@ -20,49 +19,20 @@
             text-align: center;
             box-shadow: 0 4px 2px -2px gray;
         }
-
         h1 {
             margin: 0;
             font-size: 2.5em;
         }
-
         main {
-            display: flex;
             padding: 20px;
-            height: calc(100vh - 120px); /* Adjust for header and footer */
-            gap: 20px;
         }
-
-        #searchResults {
-            flex: 0 0 40%; /* Reduced size for the search results section */
-            height: 100%;
-            border: 1px solid #ddd;
-            background-color: white;
-            overflow-y: auto;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            padding: 10px;
+        #searchBox {
+            margin: 30px 0;
         }
-
-        #preview {
-            flex: 0 0 60%; /* Increased size for the preview section */
-            height: 100%;
-            border: 1px solid #ddd;
-            background-color: #f9f9f9;
-            padding: 20px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            overflow-y: auto;
+        #results {
+            display: none;
+            margin-top: 30px;
         }
-
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .gcse-search {
-            margin-bottom: 20px;
-        }
-
         footer {
             text-align: center;
             padding: 10px;
@@ -72,65 +42,8 @@
             bottom: 0;
             width: 100%;
         }
-
-        .search-result {
-            cursor: pointer;
-            margin-bottom: 10px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .search-result:hover {
-            background-color: #e6e6e6;
-        }
     </style>
-    <script>
-        // Function to load content into the iframe
-        function loadIntoIframe(url) {
-            const iframe = document.getElementById('previewIframe');
-            iframe.src = url;
-
-            iframe.onload = function() {
-                // If the iframe loads properly, no issue
-                document.getElementById('preview').innerHTML = ''; // Clear any error messages
-            };
-
-            iframe.onerror = function() {
-                // If there's an error loading the iframe, show error message
-                document.getElementById('preview').innerHTML = '<h2>Error: Cannot load this page in the preview section.</h2>';
-            };
-        }
-
-        // This function will be triggered when a search result is clicked
-        function handleResultClick(event, url) {
-            event.preventDefault(); // Prevent the default behavior of link navigation
-            loadIntoIframe(url); // Load the paper URL into the iframe
-        }
-
-        // Update search results dynamically
-        function updateSearchResults(articles) {
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = ''; // Clear existing results
-
-            articles.forEach(article => {
-                const resultDiv = document.createElement('div');
-                resultDiv.className = 'search-result';
-                resultDiv.innerHTML = `<a href="${article.url}" target="_blank">${article.title}</a>`;
-
-                // Prevent default link behavior and open in iframe
-                resultDiv.querySelector('a').addEventListener('click', (e) => handleResultClick(e, article.url));
-
-                resultsDiv.appendChild(resultDiv);
-            });
-        }
-
-        // Example usage: Pass in a list of articles
-        // updateSearchResults([{ title: "Sample Paper", url: "https://example.com/sample-paper.pdf" }]);
-    </script>
 </head>
-
 <body>
 
     <header>
@@ -139,25 +52,29 @@
     </header>
 
     <main>
-        <!-- Search Results Column -->
-        <div id="searchResults">
-            <!-- Search Box -->
+        <div id="searchBox">
             <div class="gcse-search"></div>
-            <!-- Results -->
-            <div id="results" class="gcse-searchresults-only"></div>
         </div>
 
-        <!-- Preview Column -->
-        <div id="preview">
-            <h2>Preview Section</h2>
-            <!-- Iframe for loading papers -->
-            <iframe id="previewIframe" src=""></iframe>
-        </div>
+        <div id="results" class="gcse-searchresults-only"></div>
     </main>
 
     <footer>
         <p>&copy; 2024 Literature Review Tool | All Rights Reserved</p>
     </footer>
 
+    <script>
+        // Listen for the search event
+        window.onload = function() {
+            const searchDiv = document.querySelector('.gcse-search');
+            const resultsDiv = document.getElementById('results');
+
+            searchDiv.addEventListener('submit', function() {
+                resultsDiv.style.display = 'block'; // Show results when search is submitted
+            });
+        };
+    </script>
+
 </body>
 </html>
+

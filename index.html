@@ -53,11 +53,18 @@
             overflow-y: auto;
         }
 
-        iframe {
+        /* iframe {
             width: 100%;
             height: 100%;
             border: none;
+        } */
+
+        iframe {
+            width: 100%;
+            height: 80vh; /* Adjust height as per your design */
+            border: none; /* Removes border */
         }
+        
 
         .gcse-search {
             margin-bottom: 20px;
@@ -122,6 +129,8 @@
 
 <body>
 
+    <!-- creating iframe to open googlescholar link -->
+    <iframe src="https://scholar.google.com/" frameborder="0" title="googlescholar"></iframe>
     <header>
         <h1>Literature Review Generator</h1>
         <p>Search for research articles and generate a comprehensive literature review</p>

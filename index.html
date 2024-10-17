@@ -96,6 +96,7 @@
         // This function will be triggered when a search result is clicked
         function handleResultClick(event, url) {
             event.preventDefault(); // Prevent the default behavior of link navigation
+            console.log(url); // Print the URL to the console
             loadIntoIframe(url); // Load the paper URL into the iframe
         }
 

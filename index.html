@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Article Literature Review Search</title>
+    <!-- Google Custom Search Engine script -->
+    <script async src="https://cse.google.com/cse.js?cx=c57cd31c36a8f42b1"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #376fe9;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 2px -2px gray;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        #searchBox {
+            margin: 30px 0;
+        }
+
+        #results {
+            display: none;
+            margin-top: 30px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: white;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Literature Review Generator</h1>
+        <p>Search for research articles and generate a comprehensive literature review</p>
+    </header>
+
+    <main>
+        <!-- Search Box -->
+        <div id="searchBox">
+            <div class="gcse-search"></div>
+        </div>
+
+        <!-- Results Container -->
+        <div id="results" class="gcse-searchresults-only"></div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Literature Review Tool | All Rights Reserved</p>
+    </footer>
+
+    <script>
+        // After the page loads
+        window.onload = function() {
+            // Select the search box and the results container
+            const searchDiv = document.querySelector('.gcse-search');
+            const resultsDiv = document.getElementById('results');
+
+            // Attach a search listener to display results container after search
+            window.addEventListener('keydown', function(e) {
+                // Detect the Enter key (search submission trigger)
+                if (e.key === 'Enter') {
+                    resultsDiv.style.display = 'block';  // Show results section after search
+                }
+            });
+        };
+    </script>
+
+</body>
+</html>

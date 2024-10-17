@@ -58,7 +58,7 @@
             height: 100%;
             border: none;
         }
-        
+
         .gcse-search {
             margin-bottom: 20px;
         }
@@ -90,13 +90,22 @@
         // Function to load content into the iframe
         function loadIntoIframe(url) {
             const iframe = document.getElementById('previewIframe');
-            iframe.src = url; // Load the selected URL into the iframe
+            iframe.src = url;
+
+            iframe.onload = function() {
+                // If the iframe loads properly, no issue
+                document.getElementById('preview').innerHTML = ''; // Clear any error messages
+            };
+
+            iframe.onerror = function() {
+                // If there's an error loading the iframe, show error message
+                document.getElementById('preview').innerHTML = '<h2>Error: Cannot load this page in the preview section.</h2>';
+            };
         }
 
         // This function will be triggered when a search result is clicked
         function handleResultClick(event, url) {
             event.preventDefault(); // Prevent the default behavior of link navigation
-            console.log(url); // Print the URL to the console
             loadIntoIframe(url); // Load the paper URL into the iframe
         }
 
@@ -109,7 +118,7 @@
                 const resultDiv = document.createElement('div');
                 resultDiv.className = 'search-result';
                 resultDiv.innerHTML = `<a href="${article.url}" target="_blank">${article.title}</a>`;
-                
+
                 // Prevent default link behavior and open in iframe
                 resultDiv.querySelector('a').addEventListener('click', (e) => handleResultClick(e, article.url));
 
@@ -117,7 +126,8 @@
             });
         }
 
-        // Example: updateSearchResults([{ title: "Sample Paper", url: "https://example.com/sample-paper.pdf" }]);
+        // Example usage: Pass in a list of articles
+        // updateSearchResults([{ title: "Sample Paper", url: "https://example.com/sample-paper.pdf" }]);
     </script>
 </head>
 

@@ -12,6 +12,7 @@
             margin: 0;
             padding: 0;
         }
+
         header {
             background-color: #376fe9;
             color: white;
@@ -19,20 +20,43 @@
             text-align: center;
             box-shadow: 0 4px 2px -2px gray;
         }
+
         h1 {
             margin: 0;
             font-size: 2.5em;
         }
+
         main {
+            display: flex;
             padding: 20px;
+            height: calc(100vh - 120px); /* Adjust for header and footer */
+            gap: 20px;
         }
-        #searchBox {
-            margin: 30px 0;
+
+        #searchResults {
+            flex: 0 0 40%; /* Reduced size for the search results section */
+            height: 100%;
+            border: 1px solid #ddd;
+            background-color: white;
+            overflow-y: auto;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            padding: 10px;
         }
-        #results {
-            display: none;
-            margin-top: 30px;
+
+        #preview {
+            flex: 0 0 60%; /* Increased size for the preview section */
+            height: 100%;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            padding: 20px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
         }
+
+        .gcse-search {
+            margin-bottom: 20px;
+        }
+
         footer {
             text-align: center;
             padding: 10px;
@@ -42,8 +66,53 @@
             bottom: 0;
             width: 100%;
         }
+
+        /* Optional styling for search results */
+        .search-result {
+            cursor: pointer;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .search-result:hover {
+            background-color: #e6e6e6;
+        }
     </style>
+    <script>
+        function displayPreview(content) {
+            const previewDiv = document.getElementById('preview');
+            previewDiv.innerHTML = content; // Load the article content into the preview section
+        }
+
+        // This function would be triggered when an article is clicked
+        function handleArticleClick(title, content) {
+            // Load the content of the selected article
+            displayPreview(content);
+        }
+
+        // Update the search results with the given articles
+        function updateSearchResults(articles) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = ''; // Clear existing results
+
+            articles.forEach(article => {
+                const resultDiv = document.createElement('div');
+                resultDiv.className = 'search-result';
+                resultDiv.innerText = article.title; // Set article title
+                // Set click event to load content instead of navigating
+                resultDiv.onclick = () => handleArticleClick(article.title, article.content); 
+                resultsDiv.appendChild(resultDiv);
+            });
+        }
+
+        // Call updateSearchResults with actual articles when available
+        // For example: updateSearchResults(actualArticles);
+    </script>
 </head>
+
 <body>
 
     <header>
@@ -52,29 +121,24 @@
     </header>
 
     <main>
-        <div id="searchBox">
+        <!-- Search Results Column -->
+        <div id="searchResults">
+            <!-- Search Box -->
             <div class="gcse-search"></div>
+            <!-- Results -->
+            <div id="results" class="gcse-searchresults-only"></div>
         </div>
 
-        <div id="results" class="gcse-searchresults-only"></div>
+        <!-- Preview Column -->
+        <div id="preview">
+            <h2>Preview Section</h2>
+            <p>Select a research article from the search results to see the details here.</p>
+        </div>
     </main>
 
     <footer>
         <p>&copy; 2024 Literature Review Tool | All Rights Reserved</p>
     </footer>
 
-    <script>
-        // Listen for the search event
-        window.onload = function() {
-            const searchDiv = document.querySelector('.gcse-search');
-            const resultsDiv = document.getElementById('results');
-
-            searchDiv.addEventListener('submit', function() {
-                resultsDiv.style.display = 'block'; // Show results when search is submitted
-            });
-        };
-    </script>
-
 </body>
 </html>
-

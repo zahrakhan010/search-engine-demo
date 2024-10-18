@@ -4,10 +4,127 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Research Article Literature Review Search</title>
+    <!-- Google CSE Script with your new search engine ID -->
     <script async src="https://cse.google.com/cse.js?cx=5302e429970004f3e"></script>
     <style>
-        /* Styles same as before */
-        /* ... */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #376fe9;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 2px -2px gray;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        main {
+            display: flex;
+            padding: 20px;
+            height: calc(100vh - 120px); /* Adjust for header and footer */
+            gap: 20px;
+        }
+
+        #searchResults {
+            flex: 0 0 40%; /* Reduced size for the search results section */
+            height: 100%;
+            border: 1px solid #ddd;
+            background-color: white;
+            overflow-y: auto;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+        }
+
+        #pdfUpload {
+            flex: 0 0 60%; /* Increased size for the PDF upload section */
+            height: 100%;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            padding: 20px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+        }
+
+        .gcse-search {
+            margin-bottom: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .upload-section h2 {
+            margin-bottom: 20px;
+        }
+
+        /* Style for the grid of PDF blocks */
+        #pdfGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            list-style: none;
+            padding: 0;
+        }
+
+        /* Style for each PDF block */
+        .pdf-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .pdf-block img {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 10px;
+        }
+
+        .pdf-block span {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .pdf-block p {
+            margin: 5px 0 0;
+            font-size: 12px;
+            color: #888;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #376fe9;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2c56b7;
+        }
     </style>
     <script>
         let uploadedFiles = [];
@@ -51,8 +168,7 @@
                 return;
             }
             alert(`${uploadedFiles.length} PDFs submitted for processing.`);
-            // Navigate to the second page (results.html)
-            window.location.href = 'results.html';
+            // Implement further logic for sending PDFs to the server or processing them here
         }
     </script>
 </head>

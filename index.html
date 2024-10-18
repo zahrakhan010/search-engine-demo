@@ -92,29 +92,36 @@
         }
     </style>
     <script>
+        let uploadedFiles = [];
+
         function handleFileUpload(event) {
             const fileList = event.target.files;
             const pdfList = document.getElementById('pdfList');
+
+            // Append new files to the uploadedFiles array
+            for (let i = 0; i < fileList.length; i++) {
+                uploadedFiles.push(fileList[i]);
+            }
+
+            // Clear and then update the display list
             pdfList.innerHTML = ''; // Clear the current list
 
-            for (let i = 0; i < fileList.length; i++) {
+            uploadedFiles.forEach(file => {
                 const li = document.createElement('li');
-                li.textContent = fileList[i].name;
+                li.textContent = file.name;
                 const size = document.createElement('span');
-                size.textContent = `(${(fileList[i].size / 1024).toFixed(2)} KB)`; // Display size in KB
+                size.textContent = `(${(file.size / 1024).toFixed(2)} KB)`; // Display size in KB
                 li.appendChild(size);
                 pdfList.appendChild(li);
-            }
+            });
         }
 
         function submitPDFs() {
-            const pdfInput = document.getElementById('pdfInput');
-            const files = pdfInput.files;
-            if (files.length === 0) {
+            if (uploadedFiles.length === 0) {
                 alert("Please upload at least one PDF file.");
                 return;
             }
-            alert(`${files.length} PDFs submitted for processing.`);
+            alert(`${uploadedFiles.length} PDFs submitted for processing.`);
             // Implement further logic for sending PDFs to the server or processing them here
         }
     </script>

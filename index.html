@@ -87,20 +87,12 @@
         }
     </style>
     <script>
-        // Function to display the link in the preview section
-        function showLinkInPreview(url) {
-            const previewSection = document.getElementById('preview');
-            previewSection.innerHTML = `
-                <h2>Preview Section</h2>
-                <p>Click the link below to view the full article:</p>
-                <a href="${url}" target="_blank">${url}</a>
-            `;
-        }
-
         // This function will be triggered when a search result is clicked
         function handleResultClick(event, url) {
             event.preventDefault(); // Prevent the default behavior of link navigation
-            showLinkInPreview(url); // Display the URL in the preview section
+
+            // Open the URL in a new tab
+            window.open(url, '_blank');
         }
 
         // Update search results dynamically
@@ -113,7 +105,7 @@
                 resultDiv.className = 'search-result';
                 resultDiv.innerHTML = `<a href="${article.url}" target="_blank">${article.title}</a>`;
 
-                // Prevent default link behavior and show URL in preview section
+                // Prevent default link behavior and open the link in a new tab
                 resultDiv.querySelector('a').addEventListener('click', (e) => handleResultClick(e, article.url));
 
                 resultsDiv.appendChild(resultDiv);
@@ -143,8 +135,7 @@
         <!-- Preview Column -->
         <div id="preview">
             <h2>Preview Section</h2>
-            <p>Selected article details will appear here.</p>
-            <iframe src="https://www.google.com/" title="clink on the link" frameborder="0"></iframe>
+            <p>Selected article links will now open in a new tab when clicked.</p>
         </div>
     </main>
 

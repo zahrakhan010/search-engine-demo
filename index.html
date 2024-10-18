@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Research Article Literature Review Search</title>
-    <script async src="https://cse.google.com/cse.js?cx=c57cd31c36a8f42b1"></script>
+    <!-- Google CSE Script with your new search engine ID -->
+    <script async src="https://cse.google.com/cse.js?cx=5302e429970004f3e"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -87,32 +88,36 @@
         }
     </style>
     <script>
-        // This function will be triggered when a search result is clicked
-        function handleResultClick(event, url) {
-            event.preventDefault(); // Prevent the default behavior of link navigation
-
-            // Open the URL in a new tab
-            window.open(url, '_blank');
+        // Function to display the link in the preview section (if necessary)
+        function showLinkInPreview(url) {
+            const previewSection = document.getElementById('preview');
+            previewSection.innerHTML = `
+                <h2>Preview Section</h2>
+                <p>Click the link below to view the full article:</p>
+                <a href="${url}" target="_blank">${url}</a>
+            `;
         }
 
-        // Update search results dynamically
-        function updateSearchResults(articles) {
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = ''; // Clear existing results
+        // Function to force links to open in a new tab
+        function forceLinksToOpenInNewTab() {
+            // Select all search result links after they are loaded
+            const resultLinks = document.querySelectorAll('.gsc-webResult a');
 
-            articles.forEach(article => {
-                const resultDiv = document.createElement('div');
-                resultDiv.className = 'search-result';
-                resultDiv.innerHTML = `<a href="${article.url}" target="_blank">${article.title}</a>`;
-
-                // Prevent default link behavior and open the link in a new tab
-                resultDiv.querySelector('a').addEventListener('click', (e) => handleResultClick(e, article.url));
-
-                resultsDiv.appendChild(resultDiv);
+            // For each link, add target="_blank" to open in a new tab
+            resultLinks.forEach(link => {
+                link.setAttribute('target', '_blank');
             });
         }
 
-        // Example: updateSearchResults([{ title: "Sample Paper", url: "https://example.com/sample-paper.pdf" }]);
+        // Run this function after search results load
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // Wait for search results to be updated, then force links to open in a new tab
+            document.addEventListener('DOMNodeInserted', (event) => {
+                if (event.target && event.target.classList.contains('gsc-webResult')) {
+                    forceLinksToOpenInNewTab(); // Apply the behavior when new results are added
+                }
+            });
+        });
     </script>
 </head>
 
@@ -135,7 +140,8 @@
         <!-- Preview Column -->
         <div id="preview">
             <h2>Preview Section</h2>
-            <p>Selected article links will now open in a new tab when clicked.</p>
+            <p>Selected article details will appear here.</p>
+            <iframe src="https://www.google.com/" title="Preview Section" frameborder="0"></iframe>
         </div>
     </main>
 

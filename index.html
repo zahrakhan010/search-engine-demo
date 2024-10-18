@@ -68,27 +68,62 @@
             width: 100%;
         }
 
-        #pdfList {
-            margin-top: 20px;
+        .upload-section h2 {
+            margin-bottom: 20px;
+        }
+
+        /* Style for the grid of PDF blocks */
+        #pdfGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
             list-style: none;
             padding: 0;
         }
 
-        #pdfList li {
-            margin-bottom: 10px;
-            padding: 10px;
+        /* Style for each PDF block */
+        .pdf-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-color: white;
             border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
 
-        #pdfList li span {
-            margin-left: 10px;
+        .pdf-block img {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 10px;
+        }
+
+        .pdf-block span {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .pdf-block p {
+            margin: 5px 0 0;
+            font-size: 12px;
             color: #888;
         }
 
-        .upload-section h2 {
-            margin-bottom: 20px;
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #376fe9;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2c56b7;
         }
     </style>
     <script>
@@ -96,23 +131,34 @@
 
         function handleFileUpload(event) {
             const fileList = event.target.files;
-            const pdfList = document.getElementById('pdfList');
+            const pdfGrid = document.getElementById('pdfGrid');
 
             // Append new files to the uploadedFiles array
             for (let i = 0; i < fileList.length; i++) {
                 uploadedFiles.push(fileList[i]);
             }
 
-            // Clear and then update the display list
-            pdfList.innerHTML = ''; // Clear the current list
+            // Clear and then update the display grid
+            pdfGrid.innerHTML = ''; // Clear the current grid
 
             uploadedFiles.forEach(file => {
-                const li = document.createElement('li');
-                li.textContent = file.name;
-                const size = document.createElement('span');
-                size.textContent = `(${(file.size / 1024).toFixed(2)} KB)`; // Display size in KB
-                li.appendChild(size);
-                pdfList.appendChild(li);
+                const block = document.createElement('div');
+                block.classList.add('pdf-block');
+
+                const img = document.createElement('img');
+                img.src = 'https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg'; // PDF icon
+
+                const fileName = document.createElement('span');
+                fileName.textContent = file.name;
+
+                const fileSize = document.createElement('p');
+                fileSize.textContent = `Size: ${(file.size / 1024).toFixed(2)} KB`; // Display size in KB
+
+                block.appendChild(img);
+                block.appendChild(fileName);
+                block.appendChild(fileSize);
+
+                pdfGrid.appendChild(block);
             });
         }
 
@@ -152,8 +198,10 @@
             <p>Select multiple PDF files to upload and generate a literature review:</p>
             <input type="file" id="pdfInput" accept=".pdf" multiple onchange="handleFileUpload(event)">
             <button onclick="submitPDFs()">Submit PDFs</button>
-            <ul id="pdfList">
-                <!-- List of uploaded PDFs will appear here -->
+
+            <!-- Grid of PDF blocks -->
+            <ul id="pdfGrid">
+                <!-- PDF blocks will be displayed here -->
             </ul>
         </div>
     </main>

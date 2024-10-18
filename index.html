@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Research Article Literature Review Search</title>
-    <!-- Google CSE Script with your search engine ID -->
+    <!-- Google CSE Script with your new search engine ID -->
     <script async src="https://cse.google.com/cse.js?cx=5302e429970004f3e"></script>
     <style>
         body {
@@ -29,16 +29,39 @@
 
         main {
             display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: flex-start;
             padding: 20px;
             height: calc(100vh - 120px); /* Adjust for header and footer */
             gap: 20px;
         }
 
-        .gcse-searchresults {
+        #searchResults {
+            flex: 0 0 40%; /* Reduced size for the search results section */
+            height: 100%;
+            border: 1px solid #ddd;
+            background-color: white;
+            overflow-y: auto;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+        }
+
+        #preview {
+            flex: 0 0 60%; /* Increased size for the preview section */
+            height: 100%;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            padding: 20px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+        }
+
+        iframe {
             width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .gcse-search {
+            margin-bottom: 20px;
         }
 
         footer {
@@ -51,19 +74,77 @@
             width: 100%;
         }
 
+        .search-result {
+            cursor: pointer;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .search-result:hover {
+            background-color: #e6e6e6;
+        }
     </style>
+    <script>
+        // Function to display the link in the preview section (if necessary)
+        function showLinkInPreview(url) {
+            const previewSection = document.getElementById('preview');
+            previewSection.innerHTML = `
+                <h2>Preview Section</h2>
+                <p>Click the link below to view the full article:</p>
+                <a href="${url}" target="_blank">${url}</a>
+            `;
+        }
+
+        // Function to force links to open in a new tab
+        function forceLinksToOpenInNewTab() {
+            // Select all search result links after they are loaded
+            const resultLinks = document.querySelectorAll('.gsc-webResult a');
+
+            // For each link, add target="_blank" to open in a new tab
+            resultLinks.forEach(link => {
+                link.setAttribute('target', '_blank');
+            });
+        }
+
+        // Run this function after search results load
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // Wait for search results to be updated, then force links to open in a new tab
+            document.addEventListener('DOMNodeInserted', (event) => {
+                if (event.target && event.target.classList.contains('gsc-webResult')) {
+                    forceLinksToOpenInNewTab(); // Apply the behavior when new results are added
+                }
+            });
+        });
+    </script>
 </head>
 
 <body>
 
     <header>
-        <h1>Literature Review Search</h1>
+        <h1>Literature Review Generator</h1>
         <p>Search for research articles and generate a comprehensive literature review</p>
     </header>
 
     <main>
-        <!-- Search Box and Results will automatically display in a two-column format based on the Programmable Search Engine settings -->
-        <div class="gcse-search"></div>
+        <!-- Search Results Column -->
+        <div id="searchResults">
+            <!-- Instruction to open links in a new tab -->
+            <p><strong>Tip:</strong> Open links in a new tab by right-clicking.</p>
+
+            <!-- Search Box -->
+            <div class="gcse-search"></div>
+            <!-- Results -->
+            <div id="results" class="gcse-searchresults-only"></div>
+        </div>
+
+        <!-- Preview Column -->
+        <div id="preview">
+            <h2>Preview Section</h2>
+            <p>Selected article details will appear here.</p>
+        </div>
     </main>
 
     <footer>

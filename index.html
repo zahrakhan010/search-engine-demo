@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Research Article Literature Review Search</title>
-    <!-- Google CSE Script with your new search engine ID -->
-    <script async src="https://cse.google.com/cse.js?cx=5302e429970004f3e"></script>
+    <title>Research Tool Introduction</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -32,29 +30,20 @@
             padding: 20px;
             height: calc(100vh - 120px); /* Adjust for header and footer */
             gap: 20px;
+            overflow-y: auto; /* Enable vertical scrolling */
         }
 
-        #searchResults {
-            flex: 0 0 40%; /* Reduced size for the search results section */
-            height: 100%;
-            border: 1px solid #ddd;
+        #introduction {
+            flex: 1;
             background-color: white;
-            overflow-y: auto;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            padding: 10px;
-        }
-
-        #pdfUpload {
-            flex: 0 0 60%; /* Increased size for the PDF upload section */
-            height: 100%;
-            border: 1px solid #ddd;
-            background-color: #f9f9f9;
             padding: 20px;
+            border: 1px solid #ddd;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            overflow-y: auto;
+            overflow-y: auto; /* Make this section scrollable */
+            height: 100%;
         }
 
-        .gcse-search {
+        .section {
             margin-bottom: 20px;
         }
 
@@ -68,146 +57,60 @@
             width: 100%;
         }
 
-        .upload-section h2 {
-            margin-bottom: 20px;
+        /* Style for Scrollbar */
+        #introduction::-webkit-scrollbar {
+            width: 12px;
         }
 
-        /* Style for the grid of PDF blocks */
-        #pdfGrid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 20px;
-            list-style: none;
-            padding: 0;
+        #introduction::-webkit-scrollbar-track {
+            background: #f4f4f4;
         }
 
-        /* Style for each PDF block */
-        .pdf-block {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .pdf-block img {
-            width: 50px;
-            height: 50px;
-            margin-bottom: 10px;
-        }
-
-        .pdf-block span {
-            font-size: 14px;
-            color: #555;
-        }
-
-        .pdf-block p {
-            margin: 5px 0 0;
-            font-size: 12px;
-            color: #888;
-        }
-
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
+        #introduction::-webkit-scrollbar-thumb {
             background-color: #376fe9;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            border-radius: 10px;
+            border: 3px solid #f4f4f4;
         }
 
-        button:hover {
-            background-color: #2c56b7;
-        }
     </style>
-    <script>
-        let uploadedFiles = [];
-
-        function handleFileUpload(event) {
-            const fileList = event.target.files;
-            const pdfGrid = document.getElementById('pdfGrid');
-
-            // Append new files to the uploadedFiles array
-            for (let i = 0; i < fileList.length; i++) {
-                uploadedFiles.push(fileList[i]);
-            }
-
-            // Clear and then update the display grid
-            pdfGrid.innerHTML = ''; // Clear the current grid
-
-            uploadedFiles.forEach(file => {
-                const block = document.createElement('div');
-                block.classList.add('pdf-block');
-
-                const img = document.createElement('img');
-                img.src = 'https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg'; // PDF icon
-
-                const fileName = document.createElement('span');
-                fileName.textContent = file.name;
-
-                const fileSize = document.createElement('p');
-                fileSize.textContent = `Size: ${(file.size / 1024).toFixed(2)} KB`; // Display size in KB
-
-                block.appendChild(img);
-                block.appendChild(fileName);
-                block.appendChild(fileSize);
-
-                pdfGrid.appendChild(block);
-            });
-        }
-
-        function submitPDFs() {
-            if (uploadedFiles.length === 0) {
-                alert("Please upload at least one PDF file.");
-                return;
-            }
-            alert(`${uploadedFiles.length} PDFs submitted for processing.`);
-            // Implement further logic for sending PDFs to the server or processing them here
-        }
-    </script>
 </head>
-
 <body>
 
     <header>
-        <h1>Literature Review Generator</h1>
-        <p>Search for research articles and generate a comprehensive literature review</p>
+        <h1>Welcome to the Research Tool</h1>
+        <p>Generate literature reviews and analyze research articles quickly</p>
     </header>
 
     <main>
-        <!-- Search Results Column -->
-        <div id="searchResults">
-            <!-- Instruction to open links in a new tab -->
-            <p><strong>Tip:</strong> Open links in a new tab by right-clicking.</p>
+        <div id="introduction">
+            <div class="section">
+                <h2>What We Offer</h2>
+                <p>This tool provides you with the facilities to generate a comprehensive literature review and analyze research articles effortlessly.</p>
+                <p>It is designed to help researchers save time and streamline their research process, making it easier to review large volumes of literature and focus on key findings.</p>
+            </div>
 
-            <!-- Search Box -->
-            <div class="gcse-search"></div>
-            <!-- Results -->
-            <div id="results" class="gcse-searchresults-only"></div>
-        </div>
+            <div class="section">
+                <h2>Key Features</h2>
+                <ul>
+                    <li>Search for research articles from multiple sources in one place.</li>
+                    <li>Generate literature reviews from selected articles.</li>
+                    <li>Analyze article data, keywords, and references.</li>
+                    <li>Save and organize articles for future reference.</li>
+                </ul>
+            </div>
 
-        <!-- PDF Upload Section -->
-        <div id="pdfUpload" class="upload-section">
-            <h2>Upload PDFs for Review</h2>
-            <p>Select multiple PDF files to upload and generate a literature review:</p>
-            <input type="file" id="pdfInput" accept=".pdf" multiple onchange="handleFileUpload(event)">
-            <button onclick="submitPDFs()">Submit PDFs</button>
+            <div class="section">
+                <h2>How It Works</h2>
+                <p>Start by entering your search query in the search box. Once you've found relevant articles, you can preview them and generate a summary or a review in just a few clicks.</p>
+                <p>Click on the 'Search Articles' button below to begin your research journey.</p>
+            </div>
 
-            <!-- Grid of PDF blocks -->
-            <ul id="pdfGrid">
-                <!-- PDF blocks will be displayed here -->
-            </ul>
+            <!-- Add more sections as needed with more details -->
         </div>
     </main>
 
     <footer>
-        <p>&copy; 2024 Literature Review Tool | All Rights Reserved</p>
+        <p>&copy; 2024 Research Tool | All Rights Reserved</p>
     </footer>
 
 </body>

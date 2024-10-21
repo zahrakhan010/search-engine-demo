@@ -11,52 +11,42 @@
             margin: 0;
             padding: 0;
             color: white;
+            text-align: center;
         }
 
         header {
-            background-color: #274c99;
-            color: white;
+            background-color: #376fe9; /* Same as body to blend */
             padding: 40px 20px;
-            text-align: center;
-            box-shadow: 0 4px 2px -2px gray;
         }
 
         h1 {
             margin: 0;
-            font-size: 3em;
+            font-size: 3.5em;
             font-weight: bold;
         }
 
         h2 {
             font-size: 2em;
-            margin-top: 0;
+            margin-top: 20px;
         }
 
         main {
-            display: flex;
-            justify-content: center;
-            align-items: center;
             padding: 20px;
-            min-height: calc(100vh - 160px); /* Adjust for header and footer */
         }
 
-        #introduction {
-            background-color: white;
-            color: black;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            max-width: 800px;
-            width: 100%;
-            text-align: center;
-            overflow-y: auto; /* Make this section scrollable */
+        p {
+            font-size: 1.2em;
+            max-width: 900px;
+            margin: 20px auto;
+            line-height: 1.6;
         }
 
         img {
-            max-width: 100%;
+            max-width: 400px; /* Control the size to keep it visible but not overwhelming */
             height: auto;
+            margin-top: 30px;
             border-radius: 10px;
-            margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
         }
 
         footer {
@@ -69,63 +59,38 @@
             width: 100%;
         }
 
-        /* Style for Scrollbar */
-        #introduction::-webkit-scrollbar {
-            width: 12px;
-        }
-
-        #introduction::-webkit-scrollbar-track {
-            background: #f4f4f4;
-        }
-
-        #introduction::-webkit-scrollbar-thumb {
-            background-color: #376fe9;
-            border-radius: 10px;
-            border: 3px solid #f4f4f4;
-        }
-
-        a.button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #376fe9;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 20px;
-            font-size: 1.2em;
-        }
-
-        a.button:hover {
-            background-color: #274c99;
+        /* Responsive design */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.5em;
+            }
+            h2 {
+                font-size: 1.5em;
+            }
+            p {
+                font-size: 1.1em;
+            }
+            img {
+                max-width: 300px;
+            }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Welcome to the Literature Review Tool</h1>
-        <p>Save time by generating and analyzing research literature efficiently.</p>
+        <h1>Literature Review Tool</h1>
     </header>
 
     <main>
-        <div id="introduction">
-            <!-- Insert your image here -->
-            <img src="/D:\COE_AI\LiteratureReviewHub\search-engine-demo/graphic.png" alt="Literature Image">
-            <h2>What We Offer</h2>
-            <p>
-                This tool is designed to help you generate comprehensive literature reviews from research articles. 
-                Save time by analyzing and summarizing key findings from the latest research, 
-                all in one place. 
-            </p>
-            <h2>Features:</h2>
-            <ul>
-                <li>Search for research articles from trusted sources.</li>
-                <li>Generate literature reviews with just a few clicks.</li>
-                <li>Analyze keywords, references, and research data.</li>
-                <li>Save and organize articles for future use.</li>
-            </ul>
-            <a href="your-search-page.html" class="button">Start Searching</a>
-        </div>
+        <!-- Image to display -->
+        <img src="/D:\COE_AI\LiteratureReviewHub\search-engine-demo/graphic.png" alt="Literature Image">
+
+        <h2>Streamline Your Research Process</h2>
+        <p>
+            This tool is designed to help you save time by generating comprehensive literature reviews from research articles. 
+            Focus on what truly matters—analyzing the content—while we handle the tedious task of gathering the information for you.
+        </p>
     </main>
 
     <footer>

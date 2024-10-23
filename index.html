@@ -3,94 +3,207 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Research Tool Introduction</title>
+    <title>Research Article Literature Review Search</title>
+    <!-- Google CSE Script with your new search engine ID -->
+    <script async src="https://cse.google.com/cse.js?cx=5302e429970004f3e"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #376fe9; /* Blue background */
+            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
-            color: white;
-            text-align: center;
         }
 
         header {
-            background-color: #376fe9; /* Same as body to blend */
-            padding: 40px 20px;
+            background-color: #376fe9;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 2px -2px gray;
         }
 
         h1 {
             margin: 0;
-            font-size: 3.5em;
-            font-weight: bold;
-        }
-
-        h2 {
-            font-size: 2em;
-            margin-top: 20px;
+            font-size: 2.5em;
         }
 
         main {
+            display: flex;
             padding: 20px;
+            height: calc(100vh - 120px); /* Adjust for header and footer */
+            gap: 20px;
         }
 
-        p {
-            font-size: 1.2em;
-            max-width: 900px;
-            margin: 20px auto;
-            line-height: 1.6;
+        #searchResults {
+            flex: 0 0 40%; /* Reduced size for the search results section */
+            height: 100%;
+            border: 1px solid #ddd;
+            background-color: white;
+            overflow-y: auto;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            padding: 10px;
         }
 
-        img {
-            max-width: 400px; /* Control the size to keep it visible but not overwhelming */
-            height: auto;
-            margin-top: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        #pdfUpload {
+            flex: 0 0 60%; /* Increased size for the PDF upload section */
+            height: 100%;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            padding: 20px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+        }
+
+        .gcse-search {
+            margin-bottom: 20px;
         }
 
         footer {
             text-align: center;
-            padding: 20px;
-            background-color: #274c99;
+            padding: 10px;
+            background-color: #333;
             color: white;
             position: fixed;
             bottom: 0;
             width: 100%;
         }
 
-        /* Responsive design */
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 2.5em;
-            }
-            h2 {
-                font-size: 1.5em;
-            }
-            p {
-                font-size: 1.1em;
-            }
-            img {
-                max-width: 300px;
-            }
+        .upload-section h2 {
+            margin-bottom: 20px;
+        }
+
+        /* Style for the grid of PDF blocks */
+        #pdfGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            list-style: none;
+            padding: 0;
+        }
+
+        /* Style for each PDF block */
+        .pdf-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .pdf-block img {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 10px;
+        }
+
+        .pdf-block span {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .pdf-block p {
+            margin: 5px 0 0;
+            font-size: 12px;
+            color: #888;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #376fe9;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2c56b7;
         }
     </style>
+    <script>
+        let uploadedFiles = [];
+
+        function handleFileUpload(event) {
+            const fileList = event.target.files;
+            const pdfGrid = document.getElementById('pdfGrid');
+
+            // Append new files to the uploadedFiles array
+            for (let i = 0; i < fileList.length; i++) {
+                uploadedFiles.push(fileList[i]);
+            }
+
+            // Clear and then update the display grid
+            pdfGrid.innerHTML = ''; // Clear the current grid
+
+            uploadedFiles.forEach(file => {
+                const block = document.createElement('div');
+                block.classList.add('pdf-block');
+
+                const img = document.createElement('img');
+                img.src = 'https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg'; // PDF icon
+
+                const fileName = document.createElement('span');
+                fileName.textContent = file.name;
+
+                const fileSize = document.createElement('p');
+                fileSize.textContent = `Size: ${(file.size / 1024).toFixed(2)} KB`; // Display size in KB
+
+                block.appendChild(img);
+                block.appendChild(fileName);
+                block.appendChild(fileSize);
+
+                pdfGrid.appendChild(block);
+            });
+        }
+
+        function submitPDFs() {
+            if (uploadedFiles.length === 0) {
+                alert("Please upload at least one PDF file.");
+                return;
+            }
+            alert(`${uploadedFiles.length} PDFs submitted for processing.`);
+            // Implement further logic for sending PDFs to the server or processing them here
+        }
+    </script>
 </head>
+
 <body>
 
     <header>
-        <h1>Literature Review Tool</h1>
+        <h1>Literature Review Generator</h1>
+        <p>Search for research articles and generate a comprehensive literature review</p>
     </header>
 
     <main>
-        <!-- Image to display -->
-        <img src="/D:\COE_AI\LiteratureReviewHub\search-engine-demo/graphic2.png" alt="Literature Image">
+        <!-- Search Results Column -->
+        <div id="searchResults">
+            <!-- Instruction to open links in a new tab -->
+            <p><strong>Tip:</strong> Open links in a new tab by right-clicking.</p>
 
-        <h2>Streamline Your Research Process</h2>
-        <p>
-            This tool is designed to help you save time by generating comprehensive literature reviews from research articles. 
-            Focus on what truly matters—analyzing the content—while we handle the tedious task of gathering the information for you.
-        </p>
+            <!-- Search Box -->
+            <div class="gcse-search"></div>
+            <!-- Results -->
+            <div id="results" class="gcse-searchresults-only"></div>
+        </div>
+
+        <!-- PDF Upload Section -->
+        <div id="pdfUpload" class="upload-section">
+            <h2>Upload PDFs for Review</h2>
+            <p>Select multiple PDF files to upload and generate a literature review:</p>
+            <input type="file" id="pdfInput" accept=".pdf" multiple onchange="handleFileUpload(event)">
+            <button onclick="submitPDFs()">Submit PDFs</button>
+
+            <!-- Grid of PDF blocks -->
+            <ul id="pdfGrid">
+                <!-- PDF blocks will be displayed here -->
+            </ul>
+        </div>
     </main>
 
     <footer>
